@@ -4,7 +4,21 @@ This Laravel package manages persistent locales (language settings mantained wit
 ## Installation
 Install with composer 
 `composer require plokko/locale-manager`
+register the provider in your /config/app.php
+```php
+<?php
+//...
 
+
+   'providers' => [
+                 //...
+                 //-- Add locale manager --//
+                 Plokko\LocaleManager\LocaleManagerServiceProvider::class,
+                 //...
+   ],
+
+//...
+```
 ## Persistent locale
 Edit your /App/Http/Kernel.php and add `\Plokko\LocaleManager\PersistentLocale` middleware
 ```php
@@ -17,4 +31,5 @@ Edit your /App/Http/Kernel.php and add `\Plokko\LocaleManager\PersistentLocale` 
             \Plokko\LocaleManager\PersistentLocale::class,
             //...
         ],
+//...
 ```
