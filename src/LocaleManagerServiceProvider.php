@@ -2,6 +2,7 @@
 namespace Plokko\LocaleManager;
 
 use Illuminate\Support\ServiceProvider;
+use Plokko\LocaleManager\Console\GenerateCommand;
 
 class LocaleManagerServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,7 @@ class LocaleManagerServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole())
         {
             $this->commands([
+                GenerateCommand::class,
             ]);
         }
     }
