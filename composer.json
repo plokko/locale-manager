@@ -1,5 +1,21 @@
 {
   "name": "plokko/locale-manager",
-  "minimum-stability": "dev",
+
+  "description":  "Laravel persistent locale and Javascript/Vue.js translation support",
+  "keywords": [
+    "locale",
+    "language",
+    "translation",
+    "persistent",
+    "javascript",
+    "vue.js"
+  ],
+
+  "autoload": {
+    "psr-4": {
+      "Plokko\\LocaleManager\\": "src"
+    }
+  },
+
   "require": {}
 }
