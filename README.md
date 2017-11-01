@@ -2,9 +2,9 @@
 This Laravel package manages persistent locales (language settings mantained within the session and stored in cookies) and extends Laravel translations to the fronted with a Javascript/Vue.js interface and command-line utility.
 
 ## Installation
-Install with composer 
+1. Install with composer 
 `composer require plokko/locale-manager`
-register the provider in your /config/app.php
+2. register the provider in your /config/app.php
 ```php
 <?php
 //...
