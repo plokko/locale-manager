@@ -7,10 +7,6 @@ use Illuminate\Http\Request;
 
 class PersistentLocale
 {
-
-    const
-        session_fieldName='app_locale';
-
     /**
      * Handle an incoming request.
      *
@@ -21,9 +17,9 @@ class PersistentLocale
     public function handle(Request $request, Closure $next)
     {
 
-        $locale = $request->cookie(self::session_fieldName);
+        $locale = $request->cookie(config('locale-manger.locale_cookie_name'));
 
-        if(config('locales.init_to_preferred_locale',true) && !$locale)
+        if(config('locale-manager.match_user_preferences',true) && !$locale)
         {
             $locale = $this->getPreferredLocale($request);
         }
@@ -38,7 +34,7 @@ class PersistentLocale
 
         $response = $next($request);
         //Update locale cookie after request ends//
-        return $response->cookie(self::session_fieldName,\App::getLocale());
+        return $response->cookie(config('locale-manger.locale_cookie_name'),\App::getLocale());
     }
 
     public function getPreferredLocale(Request $request)
@@ -46,7 +42,7 @@ class PersistentLocale
         $accept_languages = $request->server('HTTP_ACCEPT_LANGUAGE');
         $langs = preg_split("/(,|;)/",$accept_languages);
 
-        $allowed_locales = config('locales.allowed_locales',['en']);
+        $allowed_locales = config('locale-manger.allowed_locales',[config('locale')]);
 
         foreach($langs AS $locale)
         {

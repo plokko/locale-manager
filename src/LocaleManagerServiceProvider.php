@@ -34,7 +34,7 @@ class LocaleManagerServiceProvider extends ServiceProvider
     {
         /// Merge default config ///
         $this->mergeConfigFrom(
-            __DIR__.'/config/config.php', 'locale-manager'
+            __DIR__.'/../config/config.php', 'locale-manager'
         );
         ///
     }
