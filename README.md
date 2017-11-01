@@ -19,6 +19,7 @@ This Laravel package manages persistent locales (language settings mantained wit
 
 //...
 ```
+3. to edit the configuration publish it with `php artisan vendor:publish plokko\locale-manager --tag=config`
 ## Persistent locale
 Edit your /App/Http/Kernel.php and add `\Plokko\LocaleManager\PersistentLocale` middleware
 ```php
