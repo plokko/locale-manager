@@ -1,6 +1,6 @@
 # plokko/locale-manager
 
-=======
+
 ## Installation
 1. Install with composer 
 `composer require plokko/locale-manager`
@@ -37,4 +37,4 @@ Edit your /App/Http/Kernel.php and add `\Plokko\LocaleManager\PersistentLocale` 
         ],
 //...
 ```
->>>>>>> origin/master
+
