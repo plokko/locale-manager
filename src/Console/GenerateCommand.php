@@ -8,7 +8,7 @@ class GenerateCommand extends Command
     protected
         $langs;
     private
-        $allMessages=null;
+        $transFiles=null;
 
     protected $signature = 'locale-manager:generate';
     protected $description = 'Regenerate javascript translation files';
@@ -26,31 +26,51 @@ class GenerateCommand extends Command
         if(!$filter||$filter==='*')
         {
             $filter = $this->getAllTransFiles();
+        }
 
-            foreach($filter AS $trans_id)
+
+        foreach($filter AS $trans_id)
+        {
+
+            $tree   = explode('.',$trans_id);
+            $tr     = trans($trans_id,[],$lang);
+
+            if(count($tree)==1)
             {
-                $messages[$trans_id] = trans($trans_id,[],$lang);
+                $messages[$trans_id] = $tr;
+            }else{
+                $leaf = $messages;
+                $last_key=array_pop($tree);
+                //Descend tree
+                foreach($tree AS $k)
+                {
+                    //if not set create empty array
+                    if(!array_key_exists($k,$leaf)){
+                        $leaf[$k] = [];
+                    }
+                    $leaf=$leaf[$k];
+                }
+                $leaf[$last_key] = $tr;
             }
 
-        }else{
-            //TODO: filter trans
         }
+
 
         return $messages;
     }
 
 
     private function getAllTransFiles(){
-        if(!$this->allMessages)
+        if(!$this->transFiles)
         {
-            $this->allMessages=[];
+            $this->transFiles=[];
             //-- Expose all language files --//
             foreach(glob(resource_path('/lang/'.config('app.fallback_locale').'/*.php')) AS $file)
             {
-                $this->allMessages[] = basename($file,'.php');
+                $this->transFiles[] = basename($file,'.php');
             }
         }
-        return $this->allMessages;
+        return $this->transFiles;
     }
 
     /**
@@ -60,20 +80,19 @@ class GenerateCommand extends Command
      */
     public function handle()
     {
+        // Prepare directory structure //
+        $dir = resource_path('/assets/js/vendor/jstrans');
+        @mkdir($dir,null,true);
 
         foreach($this->langs AS $lang)
         {
-            $tr = $this->getTranslations($lang);
-
-            // Prepare directory structure //
-            $dir = resource_path('/assets/js/vendor/jstrans');
-            @mkdir($dir,null,true);
+            $trans = $this->getTranslations($lang);
 
             // Prepare js //
-            $js='trans.load('.json_encode($tr).','.json_encode($lang).');';
+            $js = 'trans.load('.json_encode($trans).','.json_encode($lang).');';
 
             // Save js //
-            file_put_contents($dir.'/messages.'.$lang.'.js',$js);
+            file_put_contents($dir.'/trans.'.$lang.'.js',$js);
         }
 
         $this->info('translation cache generated successfully!');
