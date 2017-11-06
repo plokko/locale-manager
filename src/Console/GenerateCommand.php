@@ -81,7 +81,7 @@ class GenerateCommand extends Command
     public function handle()
     {
         // Prepare directory structure //
-        $dir = resource_path('/assets/js/vendor/jstrans');
+        $dir = resource_path('/assets/js/vendor/locale-manager');
         @mkdir($dir,null,true);
 
         foreach($this->langs AS $lang)
