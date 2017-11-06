@@ -25,5 +25,10 @@ function trans(trans_id,args)
 
     return pointer;
 }
+trans.load=function(data,lang)
+{
+    window.trans.messages = data;
+    window.trans.lang = lang;
+};
 
 export default trans;
