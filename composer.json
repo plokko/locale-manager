@@ -17,9 +17,9 @@
 	"require": {},
 	"extra":{
 		"laravel":{
-				"providers":{
+				"providers":[
 					"Plokko\\LocaleManager\\LocaleManagerServiceProvider"
-				}
+				]
 		}
 	}
 }
