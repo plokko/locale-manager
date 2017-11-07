@@ -2,9 +2,13 @@
 
 
 ## Installation
-1. Install with composer 
+Install with composer 
+
 `composer require plokko/locale-manager`
-2. register the provider in your /config/app.php
+
+Laravel >=5.5 should auto discover and register the required services.
+
+If you have laravel <5.5 you need to manually register the provider in your /config/app.php
 ```php
 <?php
 //...
@@ -19,7 +23,7 @@
 
 //...
 ```
-3. to edit the configuration publish it with
+To edit the configuration publish it with
 
 `php artisan vendor:publish --provider="Plokko\LocaleManager\LocaleManagerServiceProvider" --tag="config"`
 
