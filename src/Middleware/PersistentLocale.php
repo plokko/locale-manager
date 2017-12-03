@@ -3,6 +3,7 @@
 namespace Plokko\LocaleManager\Middleware;
 
 use Closure;
+use Cookie;
 use Illuminate\Http\Request;
 
 class PersistentLocale
@@ -34,8 +35,8 @@ class PersistentLocale
         $response = $next($request);
         //Update locale cookie after request ends//
         $lc = \App::getLocale();
-
-        return $response->cookie(config('locale-manager.locale_cookie_name'),$lc);
+        Cookie::forever(config('locale-manager.locale_cookie_name'),$lc);
+        return $response;
     }
 
     /**
