@@ -32,4 +32,3 @@ trans.load=function(data,lang)
 };
 
 export default trans;
-module.exports = trans;
