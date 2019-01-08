@@ -17,7 +17,8 @@ class PersistentLocale
      */
     public function handle(Request $request, Closure $next)
     {
-        $locale = $request->cookie(config('locale-manager.locale_cookie_name'));
+        $cookie_name = config('locale-manager.locale_cookie_name');
+        $locale = $request->cookie($cookie_name);
 
         if(config('locale-manager.match_user_preferences',true) && !$locale)
         {
@@ -35,8 +36,7 @@ class PersistentLocale
         $response = $next($request);
         //Update locale cookie after request ends//
         $lc = \App::getLocale();
-        Cookie::forever(config('locale-manager.locale_cookie_name'),$lc);
-        return $response;
+        return $response->cookie($cookie_name,$lc,0);
     }
 
     /**
