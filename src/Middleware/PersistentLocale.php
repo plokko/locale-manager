@@ -36,7 +36,9 @@ class PersistentLocale
         $response = $next($request);
         //Update locale cookie after request ends//
         $lc = \App::getLocale();
-        return $response->cookie($cookie_name,$lc,0);
+		
+        Cookie::queue($cookie_name,$lc,0);
+        return $response;
     }
 
     /**
