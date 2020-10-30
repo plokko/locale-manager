@@ -80,22 +80,33 @@ class GenerateCommand extends Command
      */
     public function handle()
     {
+        $single_file = config('locale-manager.single_file');
+        $file_prefix = config('locale-manager.messagefile_prefix');
         // Prepare directory structure //
-        $dir = resource_path('/assets/js/vendor/locale-manager');
+        $dir = config('locale-manager.target_path');
         @mkdir($dir,null,true);
 
-        foreach($this->langs AS $lang)
-        {
-            $trans = $this->getTranslations($lang);
-
-            // Prepare js //
-            $js = 'trans.load('.json_encode($trans).','.json_encode($lang).');';
-
-            // Save js //
-            file_put_contents($dir.'/trans.'.$lang.'.js',$js);
+        if($single_file){
+            $js='';
+            foreach($this->langs AS $lang){
+                $trans = $this->getTranslations($lang);
+                $js.= 'trans.load('.json_encode($trans).','.json_encode($lang).");\n";
+            }
+            file_put_contents($dir.'/'.$file_prefix.'.js',$js);
         }
+        else{
+            foreach($this->langs AS $lang)
+            {
+                $trans = $this->getTranslations($lang);
 
-        $this->info('translation cache generated successfully!');
+                // Prepare js //
+                $js = 'trans.load('.json_encode($trans).','.json_encode($lang).');';
+
+                // Save js //
+                file_put_contents($dir.'/'.$file_prefix.$lang.'.js',$js);
+            }
+        }
+        $this->info('translation files generated successfully!');
         return true;
     }
 }

@@ -26,4 +26,12 @@ return [
      *    or specify individual messages  like ['validation.accepted','validation.between.numeric']
      */
     'expose_js_trans'           => '*',
+
+    /**
+     * If true will create a single file with all the translation, else it will create a file for each locale (ex. trans.en.js, trans.it.js, trans.es.js...)
+     */
+    'single_file' => false,
+
+    'target_path' => resource_path('js/vendors/locale-manager'),
+    'messagefile_prefix' => 'trans.',
 ];
