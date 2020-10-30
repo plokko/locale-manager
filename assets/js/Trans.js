@@ -13,7 +13,7 @@ function trans(trans_id,args)
     }
     return tr;
 }
-trans.get(trans_id,lang){
+trans.get=function(trans_id,lang){
     if(!window.trans || !window.trans.messages)
         return null;
 
@@ -31,7 +31,7 @@ trans.load=function(data,lang)
     window.trans.messages = data;
     window.trans.lang = lang;
 };
-trans.choice(trans_id,quantity,args){
+trans.choice=function(trans_id,quantity,args){
     let tr = this.get(trans_id);
     if(tr && (typeof tr ==='string')){
         var rgx = /^(?:{(\d+)}|\[(\d+),(\d+|\*)\]) (.*)$/im;
