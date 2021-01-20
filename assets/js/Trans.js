@@ -1,7 +1,7 @@
 
 function trans(trans_id,args)
 {
-    let tr = this.get(trans_id);
+    let tr = trans.get(trans_id);
     if(!tr)
         return trans_id;
 
@@ -32,7 +32,7 @@ trans.load=function(data,lang)
     window.trans.lang = lang;
 };
 trans.choice=function(trans_id,quantity,args){
-    let tr = this.get(trans_id);
+    let tr = trans.get(trans_id);
     if(tr && (typeof tr ==='string')){
         var rgx = /^(?:{(\d+)}|\[(\d+),(\d+|\*)\]) (.*)$/im;
 
