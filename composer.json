@@ -19,7 +19,10 @@
 		"laravel":{
 				"providers":[
 					"Plokko\\LocaleManager\\LocaleManagerServiceProvider"
-				]
+				],
+                "aliases": {
+                    "LocaleManager": "Plokko\\LocaleManager\\Facades\\LocaleManager"
+                }
 		}
 	}
 }

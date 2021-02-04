@@ -1,8 +1,10 @@
 <?php
 namespace Plokko\LocaleManager;
 
+use Blade;
 use Illuminate\Support\ServiceProvider;
 use Plokko\LocaleManager\Console\GenerateCommand;
+use Plokko\LocaleManager\LocaleManager;
 
 class LocaleManagerServiceProvider extends ServiceProvider
 {
@@ -38,6 +40,22 @@ class LocaleManagerServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__.'/../config/config.php', 'locale-manager'
         );
-        ///
+
+        // Facade accessor
+        $this->app->bind(LocaleManager::class, function($app) {
+            return new LocaleManager();
+        });
+
+        ///Blade directive
+        Blade::directive('locales', function ($locale=null) {
+            return '<script src="<?php echo htmlspecialchars(LocaleManager::localeUrl('.(!empty($locale)?var_export($locale):'').')); ?>" />';
+        });
+    }
+
+    public function provides()
+    {
+        return [
+            LocaleManager::class,
+        ];
     }
 }

@@ -2,12 +2,23 @@
 
 namespace Plokko\LocaleManager\Middleware;
 
+use App;
 use Closure;
 use Cookie;
 use Illuminate\Http\Request;
+use Plokko\LocaleManager\LocaleManager;
 
 class PersistentLocale
 {
+    private
+        /**
+         * @var LocaleManager
+         */
+        $lm;
+
+    function __construct(LocaleManager $lm){
+        $this->lm;
+    }
     /**
      * Handle an incoming request.
      *
@@ -17,47 +28,25 @@ class PersistentLocale
      */
     public function handle(Request $request, Closure $next)
     {
-        $cookie_name = config('locale-manager.locale_cookie_name');
-        $locale = $request->cookie($cookie_name);
-
-        if(config('locale-manager.match_user_preferences',true) && !$locale)
-        {
-            $locale = $this->getPreferredLocale($request);
-        }
+        //Get locale
+        $locale = $this->lm->getLocale($request);
 
         if ($locale)
         {
-            \App::setLocale($locale);
+            //Apply locale
+            App::setLocale($locale);
         }
 
-        $lc = \App::getLocale();
+        $lc = App::getLocale();
         setlocale(LC_ALL,$lc,$lc.'_'.strtoupper($lc).'.UTF-8');
 
         $response = $next($request);
         //Update locale cookie after request ends//
-        $lc = \App::getLocale();
-		
-        Cookie::queue($cookie_name,$lc,0);
+        $lc = App::getLocale();
+
+        $this->lm->saveLocalePreferences($lc);
+
         return $response;
     }
-
-    /**
-     * @param Request $request
-     * @return string
-     */
-    public function getPreferredLocale(Request $request)
-    {
-        $accept_languages = $request->server('HTTP_ACCEPT_LANGUAGE');
-        $langs = preg_split("/(,|;)/",$accept_languages);
-
-        $allowed_locales = config('locale-manager.allowed_locales',[config('app.locale')]);
-
-        foreach($langs AS $locale)
-        {
-            if(in_array($locale,$allowed_locales))
-                return $locale;
-        }
-        //Did not matc, return default
-        return config('app.locale');
-    }
+    
 }

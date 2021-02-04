@@ -32,6 +32,23 @@ return [
      */
     'single_file' => false,
 
-    'target_path' => resource_path('js/vendors/locale-manager'),
-    'messagefile_prefix' => 'trans.',
+    /**
+     * Where the js locale files will be created
+     */
+    'target_path' => public_path('js/trans'),
+
+    /**
+     * Public path of the locale files
+     */
+    'target_url'  => '/js/trans',
+
+    /**
+     * Prefix for the locale files
+     */
+    'messagefile_prefix' => 'trans',
+    
+    /**
+     * Set to true to enable versioning for auto refreshing client cache
+     */
+    'versioning' => true,
 ];
