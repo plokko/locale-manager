@@ -51,4 +51,9 @@ return [
      * Set to true to enable versioning for auto refreshing client cache
      */
     'versioning' => true,
+    
+    /**
+     * Name of the global Javascript variable that contain Translation class, defaults to Localization (window.Localization) 
+     */
+    'js_class' => 'Localization',
 ];

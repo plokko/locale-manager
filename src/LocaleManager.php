@@ -12,7 +12,9 @@ class LocaleManager
         $single_file,
         $versioning,
         $target_path,
-        $target_url;
+        $target_url,
+        $js_class;
+
     private
         $transFiles;
 
@@ -23,6 +25,7 @@ class LocaleManager
         $this->versioning = config('locale-manager.versioning',true);
         $this->target_path = config('locale-manager.target_path');
         $this->target_url = config('locale-manager.target_url');
+        $this->js_class = config('locale-manager.js_class');
     }
 
     /**
@@ -133,6 +136,17 @@ class LocaleManager
         return md5(filemtime($path));
     }
 
+
+    /**
+     * Generate Javascript code to load translations
+     * @param array $data translation data
+     * @param string $locale translation locale
+     * @return string Javascript code
+     */
+    private function generateJsLoad(array $data, $locale){
+        return 'window.'.$this->js_class.'.load('.json_encode($data).','.json_encode($locale).');';
+    }
+
     /**
      * Generate translation files
      */
@@ -143,8 +157,8 @@ class LocaleManager
         if($this->single_file){
             $js='';
             foreach($this->langs AS $locale){
-                $trans = $this->getTranslations($locale);
-                $js.= 'trans.load('.json_encode($trans).','.json_encode($locale).");\n";
+                $data = $this->getTranslations($locale);
+                $js.= $this->generateJsLoad($data,$locale)."\n";
             }
 
             $fileName = $this->getTransFilename($locale);
@@ -153,10 +167,10 @@ class LocaleManager
         else{
             foreach($this->locales AS $locale)
             {
-                $trans = $this->getTranslations($locale);
+                $data = $this->getTranslations($locale);
 
                 // Prepare js //
-                $js = 'trans.load('.json_encode($trans).','.json_encode($locale).');';
+                $js = $this->generateJsLoad($data,$locale);
 
                 // Save js //
                 $fileName = $this->getTransFilename($locale);

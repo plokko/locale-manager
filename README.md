@@ -45,18 +45,25 @@ edit your */App/Http/Kernel.php* file and add the `\Plokko\LocaleManager\Persist
 Include the Javascript code in your main app.js file like below:
 ```javascript
 /*** Import translation plugin ***/
-import trans from '../../vendor/plokko/locale-manager/assets/js/Trans';
+import Localization from '../../vendor/plokko/locale-manager/assets/js/Localization';
 
-//make it globally accessible from the page
-window.trans = trans;
-window.trans_choise = (tag,number,args)=>trans(tag,number,args);
+// Make it globally accessible from the page 
+// NOTE: variable name MUST be the same js_class 
+window.Localization = new Localization();
 
-//make it globally accessible from all Vue components
-Vue.mixin({ methods:{ trans } });
-//or as a Vue filter
-Vue.mixin({ filters:{ 
-    trans:t => trans(t),
-    trans_choise:t => trans.choise(t),
-} });
+// Optional: add global functions
+window.trans = function(key,replace){return window.Localization.trans(key,replace);};
+window.trans_choice = function(key,number,replace){return window.Localization.trans_choice(key,number,replace);};
+
+// Optional: Vue mixin to make it globally available
+Vue.mixin({
+    methods:{
+        trans: window.trans ,
+        trans_choice: window.trans_choice ,
+    },
+    filters:{
+        trans:(s) => window.trans(s),
+    }
+});
 
 ```
