@@ -47,13 +47,14 @@ class Localization
      * @param  {string}  key
      * @param  {number}  count
      * @param  {object}  replace
+     * @param  {string}  locale
      * @return {string}
      */
-    trans_choice(key, count = 1, replace = {})
+    trans_choice(key, count = 1, replace = {},locale=null)
     {
         replace.count = count;
 
-        let translations = this._extract(key, '|').split('|'), translation;
+        let translations = this._extract(key, '|',locale).split('|'), translation;
 
         translations.some(t => translation = this._match(t, count));
 
