@@ -138,7 +138,7 @@ class LocaleManager
      */
     function generateTranslations(){
         // Prepare directory structure //
-        @mkdir($this->target_path,null,true);
+        @mkdir($this->target_path,0755,true);
 
         if($this->single_file){
             $js='';
@@ -230,6 +230,6 @@ class LocaleManager
         if(!$locale){
             $locale = $this->getLocale($request);
         }
-        return $lc->getTransUrl($locale);
+        return $this->getTransUrl($locale);
     }
 }
