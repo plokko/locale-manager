@@ -48,7 +48,7 @@ class LocaleManagerServiceProvider extends ServiceProvider
 
         ///Blade directive
         Blade::directive('locales', function ($locale=null) {
-            return '<script src="<?php echo htmlspecialchars(LocaleManager::localeUrl('.(!empty($locale)?var_export($locale):'').')); ?>" />';
+            return '<script src="<?php echo htmlspecialchars(LocaleManager::localeUrl('.(!empty($locale)?var_export($locale):'').')); ?>" ></script>';
         });
     }
 
