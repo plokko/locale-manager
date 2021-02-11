@@ -56,4 +56,9 @@ return [
      * Name of the global Javascript variable that contain Translation class, defaults to Localization (window.Localization) 
      */
     'js_class' => 'Localization',
+
+    /**
+     * If true will cache the md5 hash
+     */
+    'md5_cache' => true,
 ];

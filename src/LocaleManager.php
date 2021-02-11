@@ -2,6 +2,7 @@
 
 namespace Plokko\LocaleManager;
 
+use Cache;
 use Illuminate\Http\Request;
 
 class LocaleManager
@@ -13,10 +14,13 @@ class LocaleManager
         $versioning,
         $target_path,
         $target_url,
-        $js_class;
+        $js_class,
+        $md5_cache;
 
     private
         $transFiles;
+
+    const LOCALEURLS_CACHE_TAG = 'locale-manager_localeurls';
 
     function __construct(){
         $this->locales = config('locale-manager.allowed_locales');
@@ -26,6 +30,7 @@ class LocaleManager
         $this->target_path = config('locale-manager.target_path');
         $this->target_url = config('locale-manager.target_url');
         $this->js_class = config('locale-manager.js_class');
+        $this->md5_cache = config('locale-manager.md5_cache');
     }
 
     /**
@@ -133,7 +138,7 @@ class LocaleManager
         if(!is_file($path)){
             return null;
         }
-        return md5(filemtime($path));
+        return md5_file($path);
     }
 
 
@@ -177,6 +182,8 @@ class LocaleManager
                 file_put_contents($this->target_path.'/'.$fileName,$js);
             }
         }
+        //Flush trans cache
+        $this->flushCache();
     }
 
     /**
@@ -245,5 +252,30 @@ class LocaleManager
             $locale = $this->getLocale($request);
         }
         return $this->getTransUrl($locale);
+    }
+
+    /**
+     * Return locale URLs with locale as key
+     * @return array
+     */
+    function listLocaleUrls(){
+        if($this->md5_cache && Cache::has(self::LOCALEURLS_CACHE_TAG)){
+            return Cache::get(self::LOCALEURLS_CACHE_TAG);
+        }
+        $urls = [];
+        foreach($this->locales AS $locale){
+            $urls[$locale] = $this->getTransUrl($locale);
+        }
+        if($this->md5_cache){
+            Cache::put(self::LOCALEURLS_CACHE_TAG,$urls);
+        }
+        return $urls;
+    }
+
+    /**
+     * Flush data stored into cache
+     */
+    public function flushCache(){
+        Cache::pull(self::LOCALEURLS_CACHE_TAG);
     }
 }

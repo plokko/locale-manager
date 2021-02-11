@@ -1,6 +1,7 @@
 <?php
 namespace Plokko\LocaleManager\Console;
 
+use Artisan;
 use Illuminate\Console\Command;
 use Plokko\LocaleManager\LocaleManager;
 
@@ -27,6 +28,8 @@ class GenerateCommand extends Command
     {
         $this->lm->generateTranslations();
         $this->info('translation files generated successfully!');
+        //Clear view cache
+        Artisan::call('view:clear');
         return true;
     }
 }
