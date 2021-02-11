@@ -15,7 +15,7 @@ class LocaleManager
         $target_path,
         $target_url,
         $js_class,
-        $md5_cache;
+        $versioning_cache;
 
     private
         $transFiles;
@@ -30,7 +30,7 @@ class LocaleManager
         $this->target_path = config('locale-manager.target_path');
         $this->target_url = config('locale-manager.target_url');
         $this->js_class = config('locale-manager.js_class');
-        $this->md5_cache = config('locale-manager.md5_cache');
+        $this->versioning_cache = config('locale-manager.versioning_cache');
     }
 
     /**
@@ -259,14 +259,14 @@ class LocaleManager
      * @return array
      */
     function listLocaleUrls(){
-        if($this->md5_cache && Cache::has(self::LOCALEURLS_CACHE_TAG)){
+        if($this->versioning_cache && Cache::has(self::LOCALEURLS_CACHE_TAG)){
             return Cache::get(self::LOCALEURLS_CACHE_TAG);
         }
         $urls = [];
         foreach($this->locales AS $locale){
             $urls[$locale] = $this->getTransUrl($locale);
         }
-        if($this->md5_cache){
+        if($this->versioning_cache){
             Cache::put(self::LOCALEURLS_CACHE_TAG,$urls);
         }
         return $urls;

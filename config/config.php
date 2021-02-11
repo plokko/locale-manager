@@ -51,14 +51,14 @@ return [
      * Set to true to enable versioning for auto refreshing client cache
      */
     'versioning' => true,
+    /**
+     * If true will cache the md5 hash for versioning
+     */
+    'versioning_cache' => true,
     
     /**
      * Name of the global Javascript variable that contain Translation class, defaults to Localization (window.Localization) 
      */
     'js_class' => 'Localization',
 
-    /**
-     * If true will cache the md5 hash
-     */
-    'md5_cache' => true,
 ];

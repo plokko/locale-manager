@@ -23,6 +23,7 @@ class Localization
      * Loads locale messages
      * @param {Object} data Locale data
      * @param {string} locale Language of locale
+     * @private
      */
     load(data,locale){
         this.messages[locale] = data;
