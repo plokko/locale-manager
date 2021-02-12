@@ -147,20 +147,7 @@ class Localization
      * @private
      */
     _getData(locale){
-        return this.messages[locale || this.getLocale()];
-        /*
-        if(!locale)
-            locale = this.getLocale();
-        if(this.messages[locale] )
-            return this.messages[locale];
-
-        let locales = Object.keys(window[this.key]);
-        //Get first locale if locale is not found
-        return (locales.length>0)?
-            this.messages[locales[0]]:
-            null;
-
-         */
+        return this.messages[locale || this.getLocale()]||{};
     }
 }
 

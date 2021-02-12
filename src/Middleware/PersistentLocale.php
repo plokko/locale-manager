@@ -16,8 +16,8 @@ class PersistentLocale
          */
         $lm;
 
-    function __construct(LocaleManager $lm){
-        $this->lm;
+    function __construct(){
+        $this->lm = App::make(LocaleManager::class);
     }
     /**
      * Handle an incoming request.
@@ -48,5 +48,5 @@ class PersistentLocale
 
         return $response;
     }
-    
+
 }

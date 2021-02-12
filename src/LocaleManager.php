@@ -3,6 +3,7 @@
 namespace Plokko\LocaleManager;
 
 use Cache;
+use Cookie;
 use Illuminate\Http\Request;
 
 class LocaleManager

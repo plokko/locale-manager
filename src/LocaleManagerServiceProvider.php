@@ -51,7 +51,7 @@ class LocaleManagerServiceProvider extends ServiceProvider
         Blade::directive('locales', function ($locale=null) {
             $lm = \App::make(LocaleManager::class);
             $urls = $lm->listLocaleUrls();
-            return '<script src="<?php echo '.(var_export($urls,true)).'['.($locale?var_export($locale,true):'App::getLocale()').']; ?>" ></script>';
+            return '<script src="<?php echo optional('.(var_export($urls,true)).')['.($locale?var_export($locale,true):'App::getLocale()').']; ?>" ></script>';
         });
     }
 
