@@ -150,7 +150,7 @@ class LocaleManager
      * @return string Javascript code
      */
     private function generateJsLoad(array $data, $locale){
-        return 'window.'.$this->js_class.'.load('.json_encode($data).','.json_encode($locale).');';
+        return 'window.'.$this->js_class.'.load('.json_encode($data).','.json_encode($locale).','.json_encode($this->locales).');';
     }
 
     /**

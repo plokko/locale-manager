@@ -9,6 +9,7 @@ class Localization
     {
         this.locale = locale;
         this.messages = {};
+        this.available_locales = [];
     }
 
     /**
@@ -20,13 +21,30 @@ class Localization
     }
 
     /**
+     * List available locales in the system, may not be loaded on the page.
+     * @returns {string[]}
+     */
+    availableLocales(){
+        return this.available_locales || Object.keys(this.messages);
+    }
+
+    /**
+     * List laded locales
+     * @returns {string[]}
+     */
+    loadedLocales(){
+        return Object.keys(this.messages);
+    }
+
+    /**
      * Loads locale messages
      * @param {Object} data Locale data
      * @param {string} locale Language of locale
      * @private
      */
-    load(data,locale){
+    load(data,locale,available_locales){
         this.messages[locale] = data;
+        this.available_locales = available_locales;
     }
 
     /**
