@@ -44,8 +44,7 @@ class PersistentLocale
         //Update locale cookie after request ends//
         $lc = App::getLocale();
 
-        $this->lm->saveLocalePreferences($lc);
-
+        $this->lm->saveLocalePreferences($lc,$response);
         return $response;
     }
 

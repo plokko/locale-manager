@@ -5,6 +5,7 @@ namespace Plokko\LocaleManager;
 use Cache;
 use Cookie;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class LocaleManager
 {
@@ -82,17 +83,23 @@ class LocaleManager
         return config('app.locale');
     }
 
-
     /**
      * Saves user preference in cookie
-     * @param string $locale
+     * @param string $locale new locale
+     * @param Response|null $response Response to apply
+     * @return Response|null
      */
-    public function saveLocalePreferences($locale){
+    public function saveLocalePreferences($locale,Response $response=null){
         $cookie_name = config('locale-manager.locale_cookie_name');
 
-        Cookie::queue($cookie_name,$locale,0);
+        $cookie = Cookie::forever($cookie_name,$locale);
+        if($response){
+            $response->cookie($cookie);
+        }else {
+            Cookie::queue($c);
+        }
+        return $response;
     }
-
 
     /**
      * Return translation filename for locale
