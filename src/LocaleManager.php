@@ -91,13 +91,10 @@ class LocaleManager
      */
     public function saveLocalePreferences($locale,Response $response=null){
         $cookie_name = config('locale-manager.locale_cookie_name');
-
+        
         $cookie = Cookie::forever($cookie_name,$locale);
-        if($response){
-            $response->cookie($cookie);
-        }else {
-            Cookie::queue($c);
-        }
+        Cookie::queue($cookie);
+        
         return $response;
     }
 
