@@ -2,9 +2,7 @@
 
 namespace Plokko\LocaleManager\Middleware;
 
-use App;
 use Closure;
-use Cookie;
 use Illuminate\Http\Request;
 use Plokko\LocaleManager\LocaleManager;
 
@@ -17,7 +15,7 @@ class PersistentLocale
         $lm;
 
     function __construct(){
-        $this->lm = App::make(LocaleManager::class);
+        $this->lm = app()->make(LocaleManager::class);
     }
     /**
      * Handle an incoming request.
@@ -34,15 +32,15 @@ class PersistentLocale
         if ($locale)
         {
             //Apply locale
-            App::setLocale($locale);
+            app()->setLocale($locale);
         }
 
-        $lc = App::getLocale();
+        $lc = app()->getLocale();
         setlocale(LC_ALL,$lc,$lc.'_'.strtoupper($lc).'.UTF-8');
 
         $response = $next($request);
         //Update locale cookie after request ends//
-        $lc = App::getLocale();
+        $lc = app()->getLocale();
 
         $this->lm->saveLocalePreferences($lc,$response);
         return $response;

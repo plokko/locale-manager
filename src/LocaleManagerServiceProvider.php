@@ -1,7 +1,6 @@
 <?php
 namespace Plokko\LocaleManager;
 
-use App;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Plokko\LocaleManager\Console\GenerateCommand;
@@ -49,9 +48,9 @@ class LocaleManagerServiceProvider extends ServiceProvider
 
         ///Blade directive
         Blade::directive('locales', function ($locale=null) {
-            $lm = App::make(LocaleManager::class);
+            $lm = $this->app->make(LocaleManager::class);
             $urls = $lm->listLocaleUrls();
-            return '<script src="<?php echo optional('.(var_export($urls,true)).')['.($locale?var_export($locale,true):'App::getLocale()').']; ?>" ></script>';
+            return '<script src="<?php echo optional('.(var_export($urls,true)).')['.($locale?var_export($locale,true):'app()->getLocale()').']; ?>" ></script>';
         });
     }
 

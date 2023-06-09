@@ -2,8 +2,8 @@
 
 namespace Plokko\LocaleManager;
 
-use Cache;
-use Cookie;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
