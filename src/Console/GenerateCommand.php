@@ -30,6 +30,7 @@ class GenerateCommand extends Command
         $this->info('translation files generated successfully!');
         //Clear view cache
         Artisan::call('view:clear');
-        return true;
+        
+        return Command::SUCCESS;
     }
 }
