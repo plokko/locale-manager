@@ -17,12 +17,11 @@ class LocaleManagerServiceProvider extends ServiceProvider
     {
         //-- Publish config file --//
         $this->publishes([
-            __DIR__.'/../config/config.php' => config_path('locale-manager.php'),
-        ],'config');
+            __DIR__ . '/../config/config.php' => config_path('locale-manager.php'),
+        ], 'config');
 
         ///--- Console commands ---///
-        if ($this->app->runningInConsole())
-        {
+        if ($this->app->runningInConsole()) {
             $this->commands([
                 GenerateCommand::class,
             ]);
@@ -38,19 +37,20 @@ class LocaleManagerServiceProvider extends ServiceProvider
     {
         /// Merge default config ///
         $this->mergeConfigFrom(
-            __DIR__.'/../config/config.php', 'locale-manager'
+            __DIR__ . '/../config/config.php',
+            'locale-manager'
         );
 
         // Facade accessor
-        $this->app->bind(LocaleManager::class, function($app) {
+        $this->app->bind(LocaleManager::class, function ($app) {
             return new LocaleManager();
         });
 
         ///Blade directive
-        Blade::directive('locales', function ($locale=null) {
+        Blade::directive('locales', function ($locale = null) {
             $lm = $this->app->make(LocaleManager::class);
             $urls = $lm->listLocaleUrls();
-            return '<script src="<?php echo optional('.(var_export($urls,true)).')['.($locale?var_export($locale,true):'app()->getLocale()').']; ?>" ></script>';
+            return '<script src="<?php echo optional(' . (var_export($urls, true)) . ')[' . ($locale ? var_export($locale, true) : 'app()->getLocale()') . ']; ?>" ></script>';
         });
     }
 
